@@ -1,20 +1,55 @@
 from random import randint
+
 class  Animal:
-    def __init__(self, type_animal, name, weight):
+    def __init__(self, name, weight, type_animal):
         self.type_animal = type_animal
         self.name = name
         self.weight = weight
     def feed(self):
         self.weight += 1
         print(f'{self.type_animal} {self.name} накормелн(а). {self.name} набрала в весе и теперь весит {self.weight} кг')
-    def individual_approach(self):
-        if self.type_animal == 'Гусь' or self.type_animal == 'Курица' or self.type_animal == 'Утка':
-            print(f'{self.type_animal} {self.name} снесла яйца! Вы собрали {randint(1, 10)} яйца')
-        elif self.type_animal == 'Корова' or self.type_animal == 'Овца' or self.type_animal == 'Коза':
-            print(f'Вам удалось выдоить молоко. {self.type_animal} {self.name} доволна!')
+
+class Bird(Animal):
+    def __init__(self, name, weight, type_animal):
+        super().__init__(name, weight, type_animal) 
+
+    def collectEggs(self):
+        print(f'{self.type_animal} {self.name} снесла яйца! Вы собрали {randint(1, 10)} яйца')
+
+class Artiodactyl(Animal):
+    def __init__(self, name, weight, type_animal):
+        super().__init__(name, weight, type_animal) 
+
+    def milk(self):
+        print(f'Вам удалось выдоить молоко. {self.type_animal} {self.name} доволна!') 
+
     def comb(self):
-        if self.type_animal == 'Корова' or self.type_animal == 'Овца' or self.type_animal == 'Коза':
-            print(f'Вы вычесали животное. {self.type_animal} {self.name} теперь красивая!')
+        print(f'Вы вычесали животное. {self.type_animal} {self.name} теперь красивая!')  
+
+class Goose(Bird):
+    def __init__(self, name, weight, type_animal='Гусь'):
+        super().__init__(name, weight, type_animal) 
+
+class Cow(Artiodactyl):
+    def __init__(self, name, weight, type_animal='Корова'):
+        super().__init__(name, weight, type_animal) 
+
+class Sheep(Artiodactyl):
+    def __init__(self, name, weight, type_animal='Овца'):
+        super().__init__(name, weight, type_animal) 
+
+class Chicken(Bird):
+    def __init__(self, name, weight, type_animal='Курица'):
+        super().__init__(name, weight, type_animal) 
+
+class Goat(Artiodactyl):
+    def __init__(self, name, weight, type_animal='Коза'):
+        super().__init__(name, weight, type_animal) 
+
+class Duck(Bird):
+    def __init__(self, name, weight, type_animal='Утка'):
+        super().__init__(name, weight, type_animal) 
+
 
 def sum_wight_animals(list_animals):
     sum_wight = 0
@@ -34,21 +69,31 @@ def max_wieght(list_animals):
 
 
 
-type_animal_dict = {'Гусь': [2, ['Серый', 'Белый'], [5, 7]], 'Корова' : [1, ['Манька'], [100]], 'Овца' : [2, ['Барашек', 'Кудрявый'], [46, 54]], 'Курица' : [2, ['Ко-Ко', 'Кукареку'], [3, 5]], 'Коза' : [2, ['Рога', 'Копыта'], [7, 10]], 'Утка' : [1, ['Кряква'], [6]]}
+goose_one = Goose('Серый', 5)
+goose_two = Goose('Белый', 7)
+cow = Cow('Манька', 100)
+sheep_one = Sheep('Барашек', 15)
+sheep_two = Sheep('Кудрявый', 20)
+chicken_one = Chicken('Ко-Ко', 4)
+chicken_two = Chicken('Кукареку', 5)
+goat_one = Goat('Рога', 10)
+goat_two = Goat('Копыта', 17)
+duck = Duck('Кряква', 8)
 
-animals = []
-
-for animal in list(type_animal_dict.items()):
-    for i in range(int(animal[1][0])):
-        enter_animal = Animal(animal[0], animal[1][1][i], animal[1][2][i])
-        animals.append(enter_animal)
-
-# Для проверки записи всех животных в список выведем проверку наличия имен
-# for index, animal in enumerate(animals):
-#     print(index, animal.name)
-
-# Для удобства обращения (так как при обращении просто к элементу списка не понятно, какое это животное):
-goose_1, goose_2, cow, sheep_1, sheep_2, chiken_1, chiken_2, goat_1, goat_2, duck = animals
+animals = [goose_one, goose_two, cow, sheep_one, sheep_two, chicken_one, chicken_two, goat_one, goat_two, duck]
 
 sum_wight_animals(animals)
 max_wieght(animals)
+
+# ПРОВЕРКА РАБОТОСПОСОБНОСТИ
+print()
+for animal in animals:
+    animal.feed()
+    if isinstance(animal, Bird):
+        animal.collectEggs()
+        print()
+    elif isinstance(animal, Artiodactyl):
+        animal.milk()
+        animal.comb()
+        print()
+
